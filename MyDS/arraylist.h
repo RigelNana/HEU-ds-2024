@@ -1,12 +1,12 @@
 #ifndef ARRAY_LIST_H
+#define ARRAY_LIST_H
+#include "linearlist.h"
 
-# include "linearlist.h"
+#ifdef __cplusplus
 
-# ifdef __cplusplus
+# include <ostream>
 
-#  include <ostream>
-
-# endif
+#endif
 template <typename T>
 class ArrayList : public LinearList<T> {
 public:

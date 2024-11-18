@@ -1,6 +1,9 @@
-#include <cstddef>
-#include <stdexcept>
 #ifndef LINEAR_LIST_H
+#define LINEAR_LIST_H
+#ifdef __cplusplus
+# include <cstddef>
+# include <stdexcept>
+#endif
 template <typename T>
 class LinearList {
 public:
