@@ -1,0 +1,3 @@
+/Users/rigelshrimp/ds-heu-2024-autumn/MyDS/out/Debug/CMakeFiles/MyDS.dir
+/Users/rigelshrimp/ds-heu-2024-autumn/MyDS/out/Debug/CMakeFiles/edit_cache.dir
+/Users/rigelshrimp/ds-heu-2024-autumn/MyDS/out/Debug/CMakeFiles/rebuild_cache.dir

@@ -24,7 +24,7 @@ public:
     virtual void replace(size_t index, T const &value) = 0;
 
 protected:
-    void check_index(size_t index, bool end = false) {
+    void check_index(size_t index, bool end = false) const {
         if ((!end && index >= size()) || (end && index > size())) {
             throw std::out_of_range("out of range");
         }

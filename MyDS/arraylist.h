@@ -67,17 +67,17 @@ public:
     }
 
     T &at(size_t index) override {
-        this->check_empty();
+        this->check_index(index);
         return elements[index];
     }
 
     T const &at(size_t index) const override {
-        this->check_empty();
+        this->check_index(index);
         return elements[index];
     }
 
     void insert(size_t index, T const &value) override {
-        this->check_empty();
+        this->check_index(index, true);
         if (_size == _capacity) {
             size_t new_capacity = (_capacity == 0) ? 1 : 2 * _capacity;
             reserve(new_capacity);
@@ -89,7 +89,13 @@ public:
         ++_size;
     }
 
+    void replace(size_t index, T const &value) override {
+        this->check_index(index);
+        elements[index] = value;
+    }
+
     void erase(size_t index) override {
+        this->check_index(index);
         for (size_t i = index; i < _size - 1; i++) {
             elements[i] = elements[i + 1];
         }
@@ -154,8 +160,6 @@ public:
         return os;
     }
 
-    // void push_back
-
 private:
     T *elements;
     size_t _capacity;
@@ -163,17 +167,9 @@ private:
     static constexpr size_t INITIAL_CAPACITY = 16;
 
     void swap(ArrayList<T> &&other) noexcept {
-        T *temp_elements = std::move(elements);
-        elements = std::move(other.elements);
-        other.elements = std::move(temp_elements);
-
-        size_t temp_capacity = std::move(_capacity);
-        _capacity = std::move(other._capacity);
-        other._capacity = std::move(temp_capacity);
-
-        size_t temp_size = std::move(_size);
-        _size = std::move(other._size);
-        other._size = std::move(temp_size);
+        std::swap(elements, other.elements);
+        std::swap(_capacity, other._capacity);
+        std::swap(_size, other._size);
     }
 };
 
