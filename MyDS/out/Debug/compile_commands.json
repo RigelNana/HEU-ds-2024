@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/Users/rigelshrimp/ds-heu-2024-autumn/MyDS/out/Debug",
-  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  -I/Users/rigelshrimp/ds-heu-2024-autumn/MyDS -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -o CMakeFiles/MyDS.dir/test.cpp.o -c /Users/rigelshrimp/ds-heu-2024-autumn/MyDS/test.cpp",
-  "file": "/Users/rigelshrimp/ds-heu-2024-autumn/MyDS/test.cpp",
-  "output": "CMakeFiles/MyDS.dir/test.cpp.o"
-}
-]
