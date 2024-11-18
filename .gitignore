@@ -1,0 +1,45 @@
+# Build and CMake files
+**/out/
+**/build/
+**/CMakeFiles/
+**/[Dd]ebug/
+**/[Rr]elease/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/compile_commands.json
+**/Makefile
+**/*.cmake
+**/CMakeScratch/
+
+# 编译输出
+**/*.o
+**/*.obj
+**/*.exe
+**/*.out
+**/*.app
+**/*.so
+**/*.dylib
+**/*.dll
+
+# IDE配置
+**/.vscode/
+**/.idea/
+**/*.swp
+**/*.swo
+**/.vs/
+**/.cache/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 生成的目录
+**/bin/
+**/lib/
+
+# 依赖目录
+**/vendor/
+**/external/
+
+# 保留
+!**/CMakeLists.txt
