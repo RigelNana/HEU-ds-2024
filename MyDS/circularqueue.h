@@ -8,6 +8,7 @@
 #endif
 template <typename T>
 class CircularQueue {
+public:
     CircularQueue() : CircularQueue(INITIAL_CAPACITY) {}
 
     explicit CircularQueue(size_t capacity)
