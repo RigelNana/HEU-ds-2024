@@ -5,7 +5,6 @@
 # include <algorithm>
 # include <cstddef>
 # include <ostream>
-# include <stdexcept>
 #endif
 template <typename T>
 class BinaryTree {
