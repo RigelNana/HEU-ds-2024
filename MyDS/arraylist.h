@@ -160,6 +160,11 @@ public:
         return os;
     }
 
+    T &operator[](size_t index) {
+        this->check_index(index);
+        return elements[index];
+    }
+
 private:
     T *elements;
     size_t _capacity;
