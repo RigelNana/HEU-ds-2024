@@ -1,9 +1,12 @@
 #ifndef ARRAY_LIST_H
 #define ARRAY_LIST_H
 #include "linearlist.h"
+#include <stdexcept>
 
 #ifdef __cplusplus
 
+# include <algorithm>
+# include <initializer_list>
 # include <ostream>
 
 #endif
@@ -16,6 +19,23 @@ public:
         : elements(new T[capacity]),
           _capacity(capacity),
           _size(0) {}
+
+    ArrayList(size_t n, T const &value) : _size(n), _capacity(2 * n) {
+        elements = new T[_capacity];
+        for (size_t i = 0; i < _size; i++) {
+            elements[i] = value;
+        }
+    }
+
+    ArrayList(std::initializer_list<T> list)
+        : _size(list.size()),
+          _capacity(list.size() * 2) {
+        elements = new T[_capacity];
+        size_t i = 0;
+        for (T const &item: list) {
+            elements[i++] = item;
+        }
+    }
 
     ArrayList(ArrayList<T> const &other)
         : elements(new T[other._capacity]),
@@ -35,7 +55,7 @@ public:
         other._size = 0;
     }
 
-    ArrayList<T> &operator=(ArrayList<T> &other) {
+    ArrayList<T> &operator=(ArrayList<T> const &other) {
         if (this != &other) {
             ArrayList<T> temp(other);
             swap(temp);
@@ -50,8 +70,21 @@ public:
         return *this;
     }
 
-    ~ArrayList() override {
+    ArrayList<T> &operator=(std::initializer_list<T> list) {
         delete[] elements;
+        _size = list.size();
+        elements = new T[2 * _size];
+        size_t i = 0;
+        for (T const &item: list) {
+            elements[i++] = item;
+        }
+        return *this;
+    }
+
+    ~ArrayList() override {
+        if (elements != nullptr) {
+            delete[] elements;
+        }
     }
 
     bool empty() const noexcept override {
@@ -102,6 +135,15 @@ public:
         --_size;
     }
 
+    void erase(T *it) {
+        if (it < elements || it >= elements + _size) {
+            throw std::out_of_range("out of range");
+        }
+
+        size_t index = it - elements;
+        erase(index);
+    }
+
     void push_back(T const &value) override {
         insert(_size, value);
     }
@@ -131,10 +173,6 @@ public:
         return elements[_size - 1];
     }
 
-    void swap(ArrayList<T> &other) {
-        swap(other);
-    }
-
     void reserve(size_t new_capacity) {
         if (new_capacity > _capacity) {
             T *new_elements = new T[new_capacity];
@@ -145,6 +183,22 @@ public:
             elements = new_elements;
             _capacity = new_capacity;
         }
+    }
+
+    T *begin() noexcept {
+        return elements;
+    }
+
+    T *end() noexcept {
+        return elements + _size;
+    }
+
+    T const *begin() const noexcept {
+        return elements;
+    }
+
+    T const *end() const noexcept {
+        return elements + _size;
     }
 
     friend std::ostream &operator<<(std::ostream &os,
@@ -165,6 +219,11 @@ public:
         return elements[index];
     }
 
+    T const &operator[](size_t index) const {
+        this->check_index(index);
+        return elements[index];
+    }
+
 private:
     T *elements;
     size_t _capacity;
@@ -172,6 +231,12 @@ private:
     static constexpr size_t INITIAL_CAPACITY = 16;
 
     void swap(ArrayList<T> &&other) noexcept {
+        std::swap(elements, other.elements);
+        std::swap(_capacity, other._capacity);
+        std::swap(_size, other._size);
+    }
+
+    void swap(ArrayList<T> &other) {
         std::swap(elements, other.elements);
         std::swap(_capacity, other._capacity);
         std::swap(_size, other._size);

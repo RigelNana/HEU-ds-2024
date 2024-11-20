@@ -149,10 +149,104 @@ int eval(string const &s) {
     return eval_suffix(to_suffix(s));
 }
 
-int main() {
-    string expr;
-    getline(std::cin, expr);
-    cout << "前缀：" << to_prefix(expr) << '\n';
-    cout << "后缀：" << to_suffix(expr) << '\n';
-    cout << expr << '=' << eval(expr);
+struct Task {
+    int id;          // 任务ID
+    int cpu_time;    // 所需CPU时间
+    int submit_time; // 提交时间
+    int start_time;  // 开始时间
+    int end_time;    // 结束时间
+    int wait_time;   // 等待时间
+
+    Task(int i, int c, int s)
+        : id(i),
+          cpu_time(c),
+          submit_time(s),
+          start_time(0),
+          end_time(0),
+          wait_time(0) {}
+
+    Task()
+        : id(0),
+          cpu_time(0),
+          submit_time(0),
+          start_time(0),
+          end_time(0),
+          wait_time(0) {}
+};
+
+double average_waiting_time(ArrayList<Task> &tasks) {
+    int current_time = 0;
+    double total_wait_time = 0;
+    for (auto &task: tasks) {
+        current_time = max(current_time, task.submit_time);
+        task.start_time = current_time;
+        task.end_time = current_time + task.cpu_time;
+        task.wait_time = task.start_time - task.submit_time;
+        total_wait_time += task.wait_time;
+        current_time = task.end_time;
+    }
+    return total_wait_time / tasks.size();
 }
+
+double SJF(ArrayList<Task> &tasks) {
+    sort(tasks.begin(), tasks.end(),
+         [](Task const &a, Task const &b) { return a.cpu_time < b.cpu_time; });
+    return average_waiting_time(tasks);
+}
+
+double FCFS(ArrayList<Task> &tasks) {
+    sort(tasks.begin(), tasks.end(), [](Task const &a, Task const &b) {
+        if (a.submit_time == b.submit_time) {
+            return a.id < b.id;
+        }
+        return a.submit_time < b.submit_time;
+    });
+    return average_waiting_time(tasks);
+}
+
+void print_task_schedule(ArrayList<Task> const &tasks,
+                         string const &schedule_type) {
+    double avg_wait = 0;
+    for (auto const &task: tasks) {
+        avg_wait += task.wait_time;
+        cout << "Task " << task.id << ": Start=" << task.start_time
+             << ", Submit=" << task.submit_time << ", CPU=" << task.cpu_time
+             << ", End=" << task.end_time << ", Wait=" << task.wait_time
+             << '\n';
+    }
+    cout << "Average Wait Time: " << avg_wait / tasks.size() << "\n\n";
+}
+
+int main() {
+    ArrayList<Task> tasks = {Task{1, 10, 0}, Task{2, 8, 1}, Task{3, 2, 2},
+                             Task{4, 1, 3}, Task{5, 3, 4}};
+
+    // 创建副本用于不同的调度算法
+    ArrayList<Task> fcfs_tasks = tasks;
+    ArrayList<Task> sjf_tasks = tasks;
+
+    // FCFS调度
+    cout << "\n== First Come First Serve (FCFS) ==\n";
+    FCFS(fcfs_tasks);
+    print_task_schedule(fcfs_tasks, "FCFS");
+
+    // SJF调度
+    cout << "\n== Shortest Job First (SJF) ==\n";
+    SJF(sjf_tasks);
+    print_task_schedule(sjf_tasks, "SJF");
+
+    return 0;
+}
+
+// int main() {
+//     // string expr;
+//     // getline(std::cin, expr);
+//     // cout << "前缀：" << to_prefix(expr) << '\n';
+//     // cout << "后缀：" << to_suffix(expr) << '\n';
+//     // cout << expr << '=' << eval(expr);
+//     // ArrayList<int> al = {1, 2, 3, 4, 5};
+//     // cout << al;
+//     // sort(al.begin(), al.end(), [](int a, int b) { return a > b; });
+//     // cout << '\n' << al;
+//
+// }
