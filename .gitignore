@@ -2,6 +2,7 @@
 **/out/
 **/build/
 **/CMakeFiles/
+**/cmake-build-debug/
 **/[Dd]ebug/
 **/[Rr]elease/
 **/CMakeCache.txt
