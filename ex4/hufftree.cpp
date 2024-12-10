@@ -6,6 +6,7 @@
 #include <iostream>
 using namespace std;
 
+
 class HuffmanTree {
 public:
     struct Node {

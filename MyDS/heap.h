@@ -14,13 +14,16 @@ template <typename T, typename C = std::less<T>>
 class Heap {
 public:
     Heap() : comp(C()) {}
+
     explicit Heap(C const &comp) : comp(comp) {}
 
-    Heap(std::initializer_list<T> list) : data(list) {
+    Heap(std::initializer_list<T> list, C const &comp = C())
+        : data(list),
+          comp(comp) {
         build_heap();
     }
 
-    Heap(std::initializer_list<T> list, C const &comp)
+    Heap(ArrayList<T> const &list, C const &comp = C())
         : data(list),
           comp(comp) {
         build_heap();
@@ -115,7 +118,7 @@ private:
     void up(size_t index) {
         while (index > 0) {
             size_t p = parent(index);
-            if (comp( data[index],data[p])) {
+            if (comp(data[index], data[p])) {
                 std::swap(data[p], data[index]);
                 index = p;
             } else {
@@ -128,10 +131,10 @@ private:
         size_t largest = index;
         size_t l = left_child(index);
         size_t r = right_child(index);
-        if (l < data.size() && comp( data[l],data[largest])) {
+        if (l < data.size() && comp(data[l], data[largest])) {
             largest = l;
         }
-        if (r < data.size() && comp( data[r],data[largest])) {
+        if (r < data.size() && comp(data[r], data[largest])) {
             largest = r;
         }
         if (largest != index) {
@@ -141,8 +144,10 @@ private:
     }
 
     void build_heap() {
-        if(data.empty()) return;
-        for (int i = data.size() / 2; i > 0; i--) {
+        if (data.empty()) {
+            return;
+        }
+        for (int i = (data.size() / 2) - 1; i >= 0; i--) {
             down(i);
         }
     }
