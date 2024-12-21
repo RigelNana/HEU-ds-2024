@@ -97,9 +97,13 @@ MyDS 数据结构库包含以下数据结构的实现：
 欢迎贡献！请遵循以下步骤：
 
 1.Fork 仓库
+
 2.创建您的功能分支 (git checkout -b feature/AmazingFeature)
+
 3.提交您的更改 (git commit -m 'Add some AmazingFeature')
+
 4.推送到分支 (git push origin feature/AmazingFeature)
+
 5.打开一个 Pull Request
 
 ## 许可证
